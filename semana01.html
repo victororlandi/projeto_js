@@ -10,5 +10,79 @@
     <ul>
         <li><a href="index.html">Voltar</li></a>
     </ul>
+    <script>
+        //exercicio 1
+        let numero1 = prompt("digite um número inteiro positivo"," ");
+        if (numero1 > 0 && numero1%1 == 0){
+            if(numero1%2 == 0){
+                alert('O número é par');
+            }else{
+                alert('O número é ímpar');
+            }
+        }else{
+            alert('O número digitado é inválido!');
+        }
+
+        //exercicio 2
+        let numero2 = prompt("digite um número inteiro positivo"," ");
+        function primo(numero2) {
+            if (numero2 <= 1) return false;
+
+            for (let i = 2; i < numero2; i++) {
+                if (numero2 % i === 0) {
+                return false; 
+                }
+            }
+
+            return true;
+            }
+        if (numero2 > 0 && numero2%1 == 0){
+            primo(numero2);
+            if(primo(numero2)){
+                alert('O número é primo');
+            }else{
+                alert('O número não é primo');
+            }
+        }else{
+            alert('O número digitado é inválido!');
+        }
+
+        //exercicio 3
+        let numero3 = prompt("digite um número inteiro positivo para calcular seu fatorial"," ");
+        function fatorial(numero3) {
+            if (numero3 < 0) return undefined;
+            if (numero3 === 0 || numero3 === 1) return 1;
+            return numero3 * fatorial(numero3 - 1);
+        }
+        if (numero3 > 0 && numero3%1 == 0){
+            alert('O resultado é ' + fatorial(numero3));
+        }else{
+            alert('O número digitado é inválido!');
+        }
+
+        //exercicio 4
+        let dado = prompt("Digite um dado:");
+        let conf = confirm("Deseja verificar o tipo do dado informado?");
+
+        if (conf) {
+            let convertido = Number(dado);
+            let tipo;
+
+            if (dado === "true" || dado === "false") {
+                tipo = "boolean (string)";
+            } else if (!isNaN(convertido)) {
+                tipo = "number";
+            } else {
+                tipo = typeof dado;
+            }
+
+            alert("O tipo do dado informado é: " + tipo);
+        } else {
+            alert("Obrigado por visitar esta página!");
+        }
+
+
+
+    </script>
 </body>
 </html>
