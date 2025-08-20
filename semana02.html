@@ -10,5 +10,51 @@
     <ul>
         <li><a href="index.html">Voltar</li></a>
     </ul>
+
+        <!--exercicio 3-->
+        <script type="text/javascript">
+        
+            let data = new Date();
+            document.write(data);
+        </script>
+
+        <!--exercicio 2-->
+        <script type="text/javascript">
+
+        function atualizarHora() {
+            const agora = new Date();
+            const horas = agora.getHours().toString().padStart(2, '0');
+            const minutos = agora.getMinutes().toString().padStart(2, '0');
+            const segundos = agora.getSeconds().toString().padStart(2, '0');
+
+        const horaFormatada = `${horas}:${minutos}:${segundos}`;
+        document.getElementById('relogio').textContent = horaFormatada;
+
+        setTimeout(atualizarHora, 1000);
+        }
+
+        atualizarHora();
+        </script>
+                
+        <!--exercicio 3-->
+        <input type="text" id="texto" placeholder="Digite aqui">
+        <button onclick="verificarPalindromo()">Verificar</button>
+
+        <script>
+            function verificarPalindromo() {
+            const texto = document.getElementById("texto").value;
+            
+            const textoFormatado = texto.toLowerCase().replace(/\s/g, '');
+            const invertido = textoFormatado.split('').reverse().join('');
+            
+            if (textoFormatado && textoFormatado === invertido) {
+                alert("É um palíndromo!");
+            } else {
+                alert("Não é um palíndromo.");
+            }
+            }
+        </script>
+
+
 </body>
 </html>
