@@ -1,60 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atividades de JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #relogio {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Semana 2</h1>
     <ul>
-        <li><a href="index.html">Voltar</li></a>
+        <li><a href="index.html">Voltar</a></li>
     </ul>
 
-        <!--exercicio 3-->
-        <script type="text/javascript">
-        
-            let data = new Date();
-            document.write(data);
-        </script>
+    <!-- Exercício 1: Exibir data atual formatada -->
+    <h2>1 - Data atual formatada:</h2>
+    <p id="dataFormatada"></p>
 
-        <!--exercicio 2-->
-        <script type="text/javascript">
+    <!-- Exercício 2: Relógio -->
+    <h2>2 - Relógio:</h2>
+    <div id="relogio">Carregando horário...</div>
 
+    <!-- Exercício 3: Palíndromo -->
+    <h2>3 - Verificador de Palíndromo:</h2>
+    <input type="text" id="texto" placeholder="Digite uma palavra ou frase">
+    <button onclick="verificarPalindromo()">Verificar</button>
+
+    <script>
+        // Exercício 1: Data formatada
+        function exibirDataFormatada() {
+            const diasSemana = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+            const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+            const hoje = new Date();
+            const diaSemana = diasSemana[hoje.getDay()];
+            const dia = hoje.getDate();
+            const mes = meses[hoje.getMonth()];
+            const ano = hoje.getFullYear();
+
+            const dataFormatada = `${diaSemana}, ${dia} de ${mes} de ${ano}`;
+            document.getElementById('dataFormatada').textContent = dataFormatada;
+        }
+
+        // Exercício 2: Relógio com setTimeout
         function atualizarHora() {
             const agora = new Date();
             const horas = agora.getHours().toString().padStart(2, '0');
             const minutos = agora.getMinutes().toString().padStart(2, '0');
             const segundos = agora.getSeconds().toString().padStart(2, '0');
 
-        const horaFormatada = `${horas}:${minutos}:${segundos}`;
-        document.getElementById('relogio').textContent = horaFormatada;
+            const horaFormatada = `${horas}:${minutos}:${segundos}`;
+            document.getElementById('relogio').textContent = horaFormatada;
 
-        setTimeout(atualizarHora, 1000);
+            setTimeout(atualizarHora, 1000);
         }
 
-        atualizarHora();
-        </script>
-                
-        <!--exercicio 3-->
-        <input type="text" id="texto" placeholder="Digite aqui">
-        <button onclick="verificarPalindromo()">Verificar</button>
-
-        <script>
-            function verificarPalindromo() {
+        // Exercício 3: Verificar se é palíndromo
+        function verificarPalindromo() {
             const texto = document.getElementById("texto").value;
-            
-            const textoFormatado = texto.toLowerCase().replace(/\s/g, '');
+            const textoFormatado = texto.toLowerCase().replace(/[\W_]/g, ''); // remove espaços e pontuação
             const invertido = textoFormatado.split('').reverse().join('');
-            
+
             if (textoFormatado && textoFormatado === invertido) {
                 alert("É um palíndromo!");
             } else {
                 alert("Não é um palíndromo.");
             }
-            }
-        </script>
+        }
 
-
+        // Inicializar ao carregar a página
+        exibirDataFormatada();
+        atualizarHora();
+    </script>
 </body>
 </html>
