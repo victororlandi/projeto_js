@@ -3,22 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Atividades de JavaScript</title>
 </head>
 <body>
-    <h1>Semana 2</h1>
-    <h2>Playlist</h2>
+    <h1>Playlist - Semana 03</h1>
     <ul>
         <li><a href="index.html">Voltar</a></li>
     </ul>
-
-    <form>
-        <input type = ""> 
+    <form id="form-musica" class="add-musica">
+        <section>
+            <label for="musica">Nome da música:</label>
+            <input type="text" id="musica" required />
+        </section>
+        <section>
+            <label for="cantor">Nome do cantor:</label>
+            <input type="text" id="cantor" required />
+        </section>
+        <section>
+            <button type="submit" id="btn-add">Adicionar</button>
+        </section>
     </form>
+
+    <ul id="listagem"></ul>
+
     <script>
-        const musicas = [];
+        const playlist = [];
+        const listagem = document.getElementById('listagem');
+        const form = document.getElementById('form-musica');
+        let indiceEditando = null;
 
+        function atualizarLista() {
+            listagem.innerHTML = '';
 
-    </script>
+            playlist.forEach((musica, index) => {
+                const section = document.createElement('section');
+                section.id = 'apresentacao';
+
+                const info = document.createElement('span');
+                info.textContent = `${musica.nome} - ${musica.cantor}`;
+
+                const btnEditar = document.createElement('button');
+                btnEditar.textContent = 'Editar';
+                btnEditar.classList.add('editar');
+                btnEditar.addEventListener('click', () => {
+                document.getElementById('musica').value = musica.nome;
+                document.getElementById('cantor').value = musica.cantor;
+                indiceEditando = index;
+                document.getElementById('btn-add').textContent = 'Salvar';
+                });
+
+                const btnExcluir = document.createElement('button');
+                btnExcluir.textContent = 'Excluir';
+                btnExcluir.classList.add('excluir');
+                btnExcluir.addEventListener('click', () => {
+                playlist.splice(index, 1);
+                atualizarLista();
+                resetForm();
+                });
+
+                const botoes = document.createElement('div');
+                botoes.classList.add('botoes');
+                botoes.appendChild(btnEditar);
+                botoes.appendChild(btnExcluir);
+
+                section.appendChild(info);
+                section.appendChild(botoes);
+
+                listagem.appendChild(section);
+            });
+        }
+        function resetForm() {
+        form.reset();
+        indiceEditando = null;
+        document.getElementById('btn-add').textContent = 'Adicionar';
+        }
+
+        form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nome = document.getElementById('musica').value.trim();
+        const cantor = document.getElementById('cantor').value.trim();
+
+        if (!nome || !cantor) return;
+
+        const novaMusica = { nome, cantor };
+
+        if (indiceEditando === null) {
+            playlist.push(novaMusica);
+        } else {
+            playlist[indiceEditando] = novaMusica;
+        }
+
+        atualizarLista();
+        resetForm();
+        });
+
+        atualizarLista();
+  </script>
 </body>
 </html>

@@ -1,0 +1,82 @@
+body{
+    background-color: rgb(204, 226, 248);
+}
+
+.add-musica{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+form section input {
+  height: 28px;
+  border-radius: 4px;
+  padding: 4px;
+  border: 1px solid #ccc;
+}
+
+section#apresentacao {
+  display: flex;
+  justify-content: space-between; /* separa info e botões */
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 8px;
+}
+
+section#apresentacao span {
+  flex-grow: 1; /* ocupa o espaço disponível */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+section#apresentacao .botoes {
+  display: flex;
+  gap: 10px;
+}
+
+ul li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+form section{
+    padding: 10px;
+}
+
+form button#btn-add{
+    width: 70px;
+    height: 30px;
+    background-color: rgb(40, 167, 69);
+    border-radius: 5px;
+    border-style:none;
+    color: #ffffff;
+}
+
+button.editar{
+    width: 70px;
+    height: 30px;
+    background-color: rgb(0, 123, 255);
+    border-radius: 5px;
+    border-style:none;
+    color: #ffffff;
+}
+
+button.excluir{
+    width: 70px;
+    height: 30px;
+    background-color: rgb(220, 53, 69);
+    border-radius: 5px;
+    border-style:none;
+    color: #ffffff;
+}
+
+section#apresentacao{
+    display: flex;
+    flex-direction: row;
+}
+
+ul li{
+    list-style: none;
+}
