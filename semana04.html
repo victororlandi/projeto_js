@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulário POO - Aluno/Professor</title>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 20px auto;
+        max-width: 480px;
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+        }
+
+        label {
+        display: block;
+        margin-top: 15px;
+        font-weight: 500;
+        color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="date"] {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 5px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        font-size: 1em;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+        border-color: #007bff;
+        outline: none;
+        }
+
+        fieldset {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        padding: 12px 15px;
+        border-radius: 5px;
+        }
+
+        legend {
+        padding: 0 6px;
+        font-weight: 600;
+        color: #555;
+        }
+
+        .error {
+        color: #d9534f;
+        font-size: 0.85em;
+        margin-top: 3px;
+        min-height: 18px; /* evita pular layout quando erro some */
+        }
+
+        #campoLattes {
+        margin-top: 10px;
+        }
+
+        button {
+        margin-top: 25px;
+        padding: 10px 18px;
+        background-color: #007bff;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+        background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário POO - Aluno / Professor</h1>
+
+    <form id="form">
+        <label>Nome:
+            <input type="text" id="nome" value="João" />
+            <div class="error" id="errorNome"></div>
+        </label>
+
+        <label>Sobrenome:
+            <input type="text" id="sobrenome" value="Silva" />
+            <div class="error" id="errorSobrenome"></div>
+        </label>
+
+        <label>E-mail:
+            <input type="email" id="email" value="joao.silva@email.com" />
+            <div class="error" id="errorEmail"></div>
+        </label>
+
+        <label>Data de Nascimento:
+            <input type="date" id="dataNascimento" value="1995-06-15" />
+            <div class="error" id="errorDataNascimento"></div>
+        </label>
+
+        <label>Telefone Fixo:
+            <input type="text" id="telefoneFixo" value="1111-1111" />
+            <div class="error" id="errorTelefoneFixo"></div>
+        </label>
+
+        <label>Telefone Celular:
+            <input type="text" id="telefoneCelular" value="99999-9999" />
+            <div class="error" id="errorTelefoneCelular"></div>
+        </label>
+
+        <label>Área:
+            <input type="text" id="areaCurso" value="TI" />
+            <div class="error" id="errorAreaCurso"></div>
+        </label>
+
+        <label>Matrícula:
+            <input type="number" id="matricula" value="12345678" />
+            <div class="error" id="errorMatricula"></div>
+        </label>
+
+        <fieldset>
+            <legend>Tipo</legend>
+            <label><input type="radio" id="aluno" name="tipo" value="aluno" checked /> Aluno</label>
+            <label><input type="radio" id="professor" name="tipo" value="professor" /> Professor</label>
+        </fieldset>
+
+        <div id="campoLattes">
+            <label>Lattes:
+                <input type="text" id="lattes" value="http://lattes.cnpq.br/0000000000000000" />
+                <div class="error" id="errorLattes"></div>
+            </label>
+        </div>
+
+        <div class="buttons">
+            <button id="enviar" type="submit">Enviar</button>
+            <button id="redefinir" type="reset">Redefinir</button>
+        </div>
+    </form>
+
+    <script>
+        // Classe Pessoa base
+        function Pessoa() {
+            let nome;
+            let sobrenome;
+            let email;
+            let data_nascimento;
+
+            this.setNome = function (vNome) {
+                nome = vNome;
+            };
+            this.getNome = function () {
+                return nome;
+            };
+
+            this.setSobrenome = function (vSobrenome) {
+                sobrenome = vSobrenome;
+            };
+            this.getSobrenome = function () {
+                return sobrenome;
+            };
+
+            this.setEmail = function (vEmail) {
+                email = vEmail;
+            };
+            this.getEmail = function () {
+                return email;
+            };
+
+            this.setData_Nascimento = function (vDataNascimento) {
+                data_nascimento = vDataNascimento;
+            };
+            this.getData_Nascimento = function () {
+                return data_nascimento;
+            };
+
+            this.nomeCompleto = function () {
+                return this.getNome() + " " + this.getSobrenome();
+            };
+        }
+
+        // Classe Aluno herda de Pessoa
+        function Aluno() {
+            Pessoa.call(this); // herda Pessoa
+
+            let curso;
+            let matricula;
+
+            this.setCurso = function (vCurso) {
+                curso = vCurso;
+            };
+            this.getCurso = function () {
+                return curso;
+            };
+
+            this.setMatricula = function (vMatricula) {
+                matricula = vMatricula;
+            };
+            this.getMatricula = function () {
+                return matricula;
+            };
+        }
+        Aluno.prototype = Object.create(Pessoa.prototype);
+        Aluno.prototype.constructor = Aluno;
+
+        // Classe Professor herda de Pessoa
+        function Professor() {
+            Pessoa.call(this); // herda Pessoa
+
+            let area_atuacao;
+            let link_lattes;
+
+            this.setArea_Atuacao = function (vArea) {
+                area_atuacao = vArea;
+            };
+            this.getArea_Atuacao = function () {
+                return area_atuacao;
+            };
+
+            this.setLink_Lattes = function (vLattes) {
+                link_lattes = vLattes;
+            };
+            this.getLink_Lattes = function () {
+                return link_lattes;
+            };
+        }
+        Professor.prototype = Object.create(Pessoa.prototype);
+        Professor.prototype.constructor = Professor;
+
+        // DOM
+        const form = document.getElementById("form");
+        const professorRadio = document.getElementById("professor");
+        const alunoRadio = document.getElementById("aluno");
+        const campoLattes = document.getElementById("campoLattes");
+
+        // Função para mostrar ou esconder o campo Lattes conforme seleção
+        function atualizarCampos() {
+            if (professorRadio.checked) {
+                campoLattes.style.display = "block";
+            } else {
+                campoLattes.style.display = "none";
+            }
+        }
+
+        // Validações simples
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validarTelefone(tel) {
+            const re = /^\d{4,5}-?\d{4}$/;
+            return re.test(tel);
+        }
+
+        // Função para validar todos os campos
+        function validarCampo(idInput, idErro, validacaoFn, mensagemErro) {
+            const input = document.getElementById(idInput);
+            const erro = document.getElementById(idErro);
+            const valor = input.value.trim();
+
+            if (!validacaoFn(valor)) {
+                erro.textContent = mensagemErro;
+                return false;
+            } else {
+                erro.textContent = "";
+                return true;
+            }
+        }
+
+        // Validar campos básicos não vazios
+        function validarNaoVazio(valor) {
+            return valor.length > 0;
+        }
+
+        // Eventos para mostrar/esconder o campo lattes
+        professorRadio.addEventListener("change", atualizarCampos);
+        alunoRadio.addEventListener("change", atualizarCampos);
+        window.addEventListener("load", atualizarCampos);
+
+        // Validação ao sair do campo (blur)
+        document.getElementById("nome").addEventListener("blur", () =>
+            validarCampo("nome", "errorNome", validarNaoVazio, "Nome é obrigatório")
+        );
+        document.getElementById("sobrenome").addEventListener("blur", () =>
+            validarCampo("sobrenome", "errorSobrenome", validarNaoVazio, "Sobrenome é obrigatório")
+        );
+        document.getElementById("email").addEventListener("blur", () =>
+            validarCampo("email", "errorEmail", validarEmail, "Email inválido")
+        );
+        document.getElementById("dataNascimento").addEventListener("blur", () =>
+            validarCampo(
+                "dataNascimento",
+                "errorDataNascimento",
+                (v) => v.length === 10,
+                "Data de nascimento é obrigatória"
+            )
+        );
+        document.getElementById("telefoneFixo").addEventListener("blur", () =>
+            validarCampo(
+                "telefoneFixo",
+                "errorTelefoneFixo",
+                validarTelefone,
+                "Telefone fixo inválido"
+            )
+        );
+        document.getElementById("telefoneCelular").addEventListener("blur", () =>
+            validarCampo(
+                "telefoneCelular",
+                "errorTelefoneCelular",
+                validarTelefone,
+                "Telefone celular inválido"
+            )
+        );
+        document.getElementById("areaCurso").addEventListener("blur", () =>
+            validarCampo("areaCurso", "errorAreaCurso", validarNaoVazio, "Área é obrigatória")
+        );
+        document.getElementById("matricula").addEventListener("blur", () =>
+            validarCampo("matricula", "errorMatricula", (v) => v.length > 0 && !isNaN(v), "Matrícula inválida")
+        );
+        document.getElementById("lattes").addEventListener("blur", () => {
+            if (professorRadio.checked) {
+                validarCampo("lattes", "errorLattes", validarNaoVazio, "Lattes é obrigatório");
+            } else {
+                document.getElementById("errorLattes").textContent = "";
+            }
+        });
+
+        // Ao submeter
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Força validação em todos os campos (dispara blur)
+            [
+                "nome",
+                "sobrenome",
+                "email",
+                "dataNascimento",
+                "telefoneFixo",
+                "telefoneCelular",
+                "areaCurso",
+                "matricula",
+            ].forEach((id) => {
+                document.getElementById(id).dispatchEvent(new Event("blur"));
+            });
+
+            if (professorRadio.checked) {
+                document.getElementById("lattes").dispatchEvent(new Event("blur"));
+            }
+
+            // Verifica se existem erros visíveis
+            let errosVisiveis = document.querySelectorAll(".error:not(:empty)");
+            if (errosVisiveis.length > 0) {
+                alert("Por favor, corrija os erros antes de enviar o formulário.");
+                return;
+            }
+
+            // Cria objeto conforme tipo selecionado
+            let pessoa;
+            if (alunoRadio.checked) {
+                pessoa = new Aluno();
+                pessoa.setCurso(document.getElementById("areaCurso").value.trim());
+                pessoa.setMatricula(document.getElementById("matricula").value.trim());
+            } else {
+                pessoa = new Professor();
+                pessoa.setArea_Atuacao(document.getElementById("areaCurso").value.trim());
+                pessoa.setLink_Lattes(document.getElementById("lattes").value.trim());
+            }
+
+            // Dados comuns
+            pessoa.setNome(document.getElementById("nome").value.trim());
+            pessoa.setSobrenome(document.getElementById("sobrenome").value.trim());
+            pessoa.setEmail(document.getElementById("email").value.trim());
+            pessoa.setData_Nascimento(document.getElementById("dataNascimento").value.trim());
+
+            console.log("Objeto criado:");
+            console.log(pessoa);
+
+            alert(
+                "Formulário enviado com sucesso!\n" +
+                "Nome completo: " + pessoa.nomeCompleto() +
+                "\nEmail: " + pessoa.getEmail() +
+                (alunoRadio.checked
+                    ? "\nCurso: " + pessoa.getCurso() + "\nMatrícula: " + pessoa.getMatricula()
+                    : "\nÁrea: " + pessoa.getArea_Atuacao() + "\nLattes: " + pessoa.getLink_Lattes())
+            );
+
+            form.reset();
+            atualizarCampos();
+        });
+
+            form.addEventListener("reset", function () {
+                setTimeout(() => {
+            // Limpa mensagens de erro
+            document.querySelectorAll(".error").forEach(el => el.textContent = "");
+            // Atualiza exibição do campo Lattes (exibe ou oculta conforme o radio selecionado após reset)
+            atualizarCampos();
+        }, 0);
+    });
+    </script>
+</body>
+</html>
