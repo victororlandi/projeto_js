@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contador de Pessoas</title>
+<style>
+  /* Reset e corpo */
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  /* Container principal */
+  #app {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 30px 30px 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    width: 280px;
+    text-align: center;
+  }
+
+  /* Título */
+  h1 {
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    font-size: 20px;
+  }
+
+  /* Parágrafo de instrução */
+  p {
+    font-size: 13px;
+    color: #444;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  /* Label Total */
+  .total {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  /* Caixa do total */
+  .total-box {
+    border: 1.8px solid #999;
+    border-radius: 6px;
+    width: 70px;
+    height: 30px;
+    margin: 0 auto 20px auto;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 30px;
+    user-select: none;
+  }
+
+  /* Botão reset */
+  .reset-btn {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    float: right;
+    margin-top: -44px;
+    margin-right: -10px;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+
+  .reset-btn:hover {
+    opacity: 1;
+  }
+
+  /* Contêiner dos contadores */
+  .counters {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+
+  /* Cada contador */
+  .counter {
+    text-align: center;
+    width: 100px;
+  }
+
+  /* Avatar */
+  .avatar {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    user-select: none;
+  }
+
+  /* Label dos contadores */
+  .label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  /* Contêiner dos botões */
+  .btns {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* Botão com ícone */
+  button.btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+
+  button.btn-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    user-select: none;
+  }
+
+  /* Caixa dos números */
+  .count-box {
+    border: 1.8px solid #999;
+    border-radius: 6px;
+    width: 60px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 28px;
+    margin: 0 auto;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+    <h1>Semana 05</h1>
+    <ul>
+        <li><a href="index.html">Voltar</a></li>
+    </ul>
+    <div id="app"></div>
+
+<script>
+  const app = document.getElementById("app");
+
+  let homens = 0;
+  let mulheres = 0;
+
+  // Atualiza os valores no DOM
+  function atualizarTotal() {
+    totalBox.textContent = homens + mulheres;
+    homensCount.textContent = homens;
+    mulheresCount.textContent = mulheres;
+  }
+
+  function incrementarHomens() {
+    homens++;
+    atualizarTotal();
+  }
+  function decrementarHomens() {
+    if (homens > 0) homens--;
+    atualizarTotal();
+  }
+  function incrementarMulheres() {
+    mulheres++;
+    atualizarTotal();
+  }
+  function decrementarMulheres() {
+    if (mulheres > 0) mulheres--;
+    atualizarTotal();
+  }
+  function resetar() {
+    homens = 0;
+    mulheres = 0;
+    atualizarTotal();
+  }
+
+  // Criando elementos
+  const title = document.createElement("h1");
+  title.textContent = "Contador de Pessoas";
+  app.appendChild(title);
+
+  const totalLabel = document.createElement("div");
+  totalLabel.className = "total";
+  totalLabel.textContent = "Total";
+  app.appendChild(totalLabel);
+
+  const totalBox = document.createElement("div");
+  totalBox.className = "total-box";
+  totalBox.textContent = "0";
+  app.appendChild(totalBox);
+
+  const resetBtn = document.createElement("img");
+  resetBtn.src = "reset.png"; // Coloque o ícone reset na pasta
+  resetBtn.alt = "Resetar";
+  resetBtn.title = "Resetar contador";
+  resetBtn.className = "reset-btn";
+  resetBtn.style.userSelect = "none";
+  resetBtn.addEventListener("click", resetar);
+  app.appendChild(resetBtn);
+
+  const countersDiv = document.createElement("div");
+  countersDiv.className = "counters";
+  app.appendChild(countersDiv);
+
+  // Homens
+  const homensDiv = document.createElement("div");
+  homensDiv.className = "counter";
+  countersDiv.appendChild(homensDiv);
+
+  const homensImg = document.createElement("img");
+  homensImg.src = "homem.png";
+  homensImg.alt = "Homens";
+  homensImg.className = "avatar";
+  homensDiv.appendChild(homensImg);
+
+  const homensBtns = document.createElement("div");
+  homensBtns.className = "btns";
+  homensDiv.appendChild(homensBtns);
+
+  const homensPlus = document.createElement("button");
+  homensPlus.className = "btn-icon";
+  homensPlus.title = "Adicionar homem";
+  homensPlus.addEventListener("click", incrementarHomens);
+  const plusImgH = document.createElement("img");
+  plusImgH.src = "plus.png";
+  plusImgH.alt = "+";
+  homensPlus.appendChild(plusImgH);
+  homensBtns.appendChild(homensPlus);
+
+  const homensMinus = document.createElement("button");
+  homensMinus.className = "btn-icon";
+  homensMinus.title = "Remover homem";
+  homensMinus.addEventListener("click", decrementarHomens);
+  const minusImgH = document.createElement("img");
+  minusImgH.src = "minus.png";
+  minusImgH.alt = "-";
+  homensMinus.appendChild(minusImgH);
+  homensBtns.appendChild(homensMinus);
+
+  const homensLabel = document.createElement("div");
+  homensLabel.className = "label";
+  homensLabel.textContent = "Homens";
+  homensDiv.appendChild(homensLabel);
+
+  const homensCount = document.createElement("div");
+  homensCount.className = "count-box";
+  homensCount.textContent = "0";
+  homensDiv.appendChild(homensCount);
+
+  // Mulheres
+  const mulheresDiv = document.createElement("div");
+  mulheresDiv.className = "counter";
+  countersDiv.appendChild(mulheresDiv);
+
+  const mulheresImg = document.createElement("img");
+  mulheresImg.src = "mulher.png";
+  mulheresImg.alt = "Mulheres";
+  mulheresImg.className = "avatar";
+  mulheresDiv.appendChild(mulheresImg);
+
+  const mulheresBtns = document.createElement("div");
+  mulheresBtns.className = "btns";
+  mulheresDiv.appendChild(mulheresBtns);
+
+  const mulheresPlus = document.createElement("button");
+  mulheresPlus.className = "btn-icon";
+  mulheresPlus.title = "Adicionar mulher";
+  mulheresPlus.addEventListener("click", incrementarMulheres);
+  const plusImgM = document.createElement("img");
+  plusImgM.src = "plus.png";
+  plusImgM.alt = "+";
+  mulheresPlus.appendChild(plusImgM);
+  mulheresBtns.appendChild(mulheresPlus);
+
+  const mulheresMinus = document.createElement("button");
+  mulheresMinus.className = "btn-icon";
+  mulheresMinus.title = "Remover mulher";
+  mulheresMinus.addEventListener("click", decrementarMulheres);
+  const minusImgM = document.createElement("img");
+  minusImgM.src = "minus.png";
+  minusImgM.alt = "-";
+  mulheresMinus.appendChild(minusImgM);
+  mulheresBtns.appendChild(mulheresMinus);
+
+  const mulheresLabel = document.createElement("div");
+  mulheresLabel.className = "label";
+  mulheresLabel.textContent = "Mulheres";
+  mulheresDiv.appendChild(mulheresLabel);
+
+  const mulheresCount = document.createElement("div");
+  mulheresCount.className = "count-box";
+  mulheresCount.textContent = "0";
+  mulheresDiv.appendChild(mulheresCount);
+</script>
+</body>
+</html>
