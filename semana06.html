@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Calculadora</title>
+<style>
+  body {
+    background: #f0f0f0;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .calculator {
+    background: #2f2f2f;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    width: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: white;
+  }
+
+  .top-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+
+  .circle.red { background: #ff5f56; }
+  .circle.yellow { background: #ffbd2e; }
+  .circle.gray { background: #555; }
+
+  .display {
+    background: #222;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 2.5rem;
+    text-align: right;
+    box-sizing: border-box;
+    min-height: 50px;
+    user-select: none;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+  }
+
+  button {
+    background: #4d4d4d;
+    border: none;
+    border-radius: 50%;
+    height: 50px;
+    font-size: 1.25rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    user-select: none;
+  }
+
+  button.operator {
+    background: #f6992f;
+    color: white;
+  }
+
+  button:active {
+    filter: brightness(85%);
+  }
+
+  /* Specific buttons */
+  button.ac, button.plusminus, button.percent {
+    background: #777;
+  }
+
+  button.zero {
+    border-radius: 25px;
+    grid-column: span 2;
+    text-align: left;
+    padding-left: 20px;
+    font-size: 1.3rem;
+  }
+</style>
+</head>
+<body>
+  <div id="app"></div>
+
+<script>
+  // Seleciona a div "app" onde a calculadora será criada
+  const app = document.getElementById('app');
+
+  // Criar container principal da calculadora
+  const calculator = document.createElement('div');
+  calculator.classList.add('calculator');
+
+  // Barra superior com 3 bolinhas
+  const topBar = document.createElement('div');
+  topBar.classList.add('top-bar');
+  ['red', 'yellow', 'gray'].forEach(color => {
+    const circle = document.createElement('div');
+    circle.classList.add('circle', color);
+    topBar.appendChild(circle);
+  });
+  calculator.appendChild(topBar);
+
+  // Display
+  const display = document.createElement('div');
+  display.classList.add('display');
+  display.textContent = '0';
+  calculator.appendChild(display);
+
+  // Botões e suas labels na ordem exata da imagem
+  const buttons = [
+    { label: 'AC', className: 'ac' },
+    { label: '+/-', className: 'plusminus' },
+    { label: '%', className: 'percent' },
+    { label: '÷', className: 'operator' },
+    { label: '7' },
+    { label: '8' },
+    { label: '9' },
+    { label: '×', className: 'operator' },
+    { label: '4' },
+    { label: '5' },
+    { label: '6' },
+    { label: '−', className: 'operator' },
+    { label: '1' },
+    { label: '2' },
+    { label: '3' },
+    { label: '+', className: 'operator' },
+    { label: '⌧', className: 'clearEntry' }, // ícone da calculadora
+    { label: '0', className: 'zero' },
+    { label: ',', className: 'decimal' },
+    { label: '=', className: 'operator equal' }
+  ];
+
+  // Grid container dos botões
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.classList.add('buttons');
+
+  buttons.forEach(btn => {
+    const button = document.createElement('button');
+    button.textContent = btn.label;
+    if(btn.className) button.classList.add(...btn.className.split(' '));
+    buttonsContainer.appendChild(button);
+  });
+
+  calculator.appendChild(buttonsContainer);
+  app.appendChild(calculator);
+
+  // --- Lógica da calculadora ---
+
+  let currentInput = '0';
+  let previousInput = null;
+  let operator = null;
+  let waitingForNewInput = false;
+
+  function updateDisplay() {
+    display.textContent = currentInput;
+  }
+
+  function calculate(a, b, op) {
+    a = parseFloat(a.replace(',', '.'));
+    b = parseFloat(b.replace(',', '.'));
+    switch (op) {
+      case '+': return a + b;
+      case '−': return a - b;
+      case '×': return a * b;
+      case '÷': return b === 0 ? 'Erro' : a / b;
+      default: return b;
+    }
+  }
+
+  buttonsContainer.addEventListener('click', e => {
+    if(e.target.tagName !== 'BUTTON') return;
+
+    const btn = e.target.textContent;
+
+    if('0123456789'.includes(btn)) {
+      if(waitingForNewInput) {
+        currentInput = btn;
+        waitingForNewInput = false;
+      } else {
+        if(currentInput === '0') currentInput = btn;
+        else currentInput += btn;
+      }
+      updateDisplay();
+      return;
+    }
+
+    switch(btn) {
+      case 'AC':
+        currentInput = '0';
+        previousInput = null;
+        operator = null;
+        waitingForNewInput = false;
+        updateDisplay();
+        break;
+
+      case '+/-':
+        if(currentInput !== '0') {
+          if(currentInput.startsWith('-')) currentInput = currentInput.slice(1);
+          else currentInput = '-' + currentInput;
+          updateDisplay();
+        }
+        break;
+
+      case '%':
+        currentInput = (parseFloat(currentInput.replace(',', '.')) / 100).toString().replace('.', ',');
+        updateDisplay();
+        break;
+
+      case ',':
+        if(!currentInput.includes(',')) {
+          currentInput += ',';
+          updateDisplay();
+        }
+        break;
+
+      case '⌧':
+        // Limpar último dígito
+        if(currentInput.length > 1) {
+          currentInput = currentInput.slice(0, -1);
+        } else {
+          currentInput = '0';
+        }
+        updateDisplay();
+        break;
+
+      case '=':
+        if(operator && previousInput !== null) {
+          const result = calculate(previousInput, currentInput, operator);
+          currentInput = (result === 'Erro' ? result : result.toString().replace('.', ','));
+          previousInput = null;
+          operator = null;
+          waitingForNewInput = true;
+          updateDisplay();
+        }
+        break;
+
+      default: // operadores + − × ÷
+        if(operator && !waitingForNewInput) {
+          const result = calculate(previousInput, currentInput, operator);
+          currentInput = (result === 'Erro' ? result : result.toString().replace('.', ','));
+          updateDisplay();
+          previousInput = currentInput;
+          operator = btn;
+          waitingForNewInput = true;
+        } else {
+          operator = btn;
+          previousInput = currentInput;
+          waitingForNewInput = true;
+        }
+        break;
+    }
+  });
+
+</script>
+</body>
+</html>
